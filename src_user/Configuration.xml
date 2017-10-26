@@ -4,6 +4,7 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="User" type="com.yihaomen.mybatis.model.User"/>
+        <typeAlias alias="Article" type="com.yihaomen.mybatis.model.Article"/>
     </typeAliases>
 
     <environments default="development">
