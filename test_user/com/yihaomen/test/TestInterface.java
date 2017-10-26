@@ -1,5 +1,6 @@
 package com.yihaomen.test;
 
+import com.yihaomen.mybatis.inter.IUserOperation;
 import com.yihaomen.mybatis.model.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -8,7 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.Reader;
 
-public class Test {
+public class TestInterface {
     private static SqlSessionFactory sqlSessionFactory;
     private static Reader reader;
 
@@ -28,11 +29,12 @@ public class Test {
     public static void main(String[] args) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
+            // 先mapper映射类
+            IUserOperation userOperation = sqlSession.getMapper(IUserOperation.class);
             // session的函数读取xml中namespace和id
-            User user = (User) sqlSession.selectOne("com.yihaomen.mybatis.inter.IUserOperation.selectUserByID", 1);
-            System.out.println(user.getUserName());
-            System.out.println(user.getUserAge());
+            User user = userOperation.selectUserByID(1);
             System.out.println(user.getUserAddress());
+            System.out.println(user.getUserName());
         } finally {
             sqlSession.close();
         }
