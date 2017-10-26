@@ -2,15 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--方式1：用 SqlSession 实例来直接执行已映射的SQL语句-->
-<!--如果运行test_user/Test.class,用下面这行-->
-<!--namespace可以自己定义，Test.java里需要对应namespace和select的id-->
+<!--如果运行test_user/TestSessionSql.class,用下面这行-->
+<!--namespace可以自己定义，TestSessionSql.java里需要对应namespace和select的id-->
 <!--<mapper namespace="com.yihaomen.mybatis.models.UserMapper">-->
 
 <!--方式2：使用描述参数和SQL语句返回值的接口（比如 IUserOperation.class），推荐使用这种方式-->
-<!--如果运行test_user/TestInterface.class,用下面这行-->
-<!--此时的namespace,是定义的接口-->
+<!--如果运行test_user/TestSelectOne.class,用下面这行-->
+<!--此时的namespace,必须与定义的 package 和 接口一致-->
 <mapper namespace="com.yihaomen.mybatis.inter.IUserOperation">
     <select id="selectUserByID" parameterType="int" resultType="User">
         select * from `user` where id = #{id}
     </select>
+
+    <!--执行增加操作的SQL语句。id和parameterType 分别与IUserOperation接口中的addUser方法的名字和参数类型一致。
+    以#{name}的形式引用Student参数的name属性，MyBatis将使用反射读取Student参数的此属性。#{name}中name大小写敏感。引用其他的gender等属性与此一致。
+    useGeneratedKeys设置为"true"表明要MyBatis获取由数据库自动生成的主键；keyProperty="id"指定把获取到的主键值注入到Student的id属性-->
+    <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(userName,userAge,userAddress)
+        values(#{userName},#{userAge},#{userAddress})
+    </insert>
+    
+    <resultMap id="resultListUser" type="User">
+        <id column="id" property="id"/>
+        <id column="userName" property="userName"/>
+        <id column="userAge" property="userAge"/>
+        <id column="userAddress" property="userAddress"/>
+    </resultMap>
+    <select id="selectUsers" parameterType="string" resultMap="resultListUser">
+        select * from user where userName like #{userName}
+    </select>
+    <select id="selectAllUsers" resultMap="resultListUser">
+        select * from user
+    </select>
+
+    <update id="updateUser" parameterType="User">
+        update user set userName=#{userName},userAge=#{userAge},userAddress=#{userAddress} where id=#{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
 </mapper>

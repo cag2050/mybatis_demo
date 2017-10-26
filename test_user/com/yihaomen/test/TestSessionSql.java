@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.Reader;
 
-public class Test {
+public class TestSessionSql {
     private static SqlSessionFactory sqlSessionFactory;
     private static Reader reader;
 
@@ -19,10 +19,6 @@ public class Test {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static SqlSessionFactory getSession() {
-        return sqlSessionFactory;
     }
 
     public static void main(String[] args) {

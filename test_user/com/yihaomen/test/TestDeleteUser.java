@@ -7,9 +7,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import java.io.IOException;
 import java.io.Reader;
 
-public class TestInterface {
+public class TestDeleteUser {
     private static SqlSessionFactory sqlSessionFactory;
     private static Reader reader;
 
@@ -17,24 +18,18 @@ public class TestInterface {
         try {
             reader = Resources.getResourceAsReader("Configuration.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static SqlSessionFactory getSession() {
-        return sqlSessionFactory;
     }
 
     public static void main(String[] args) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
-            // 先mapper映射类
             IUserOperation userOperation = sqlSession.getMapper(IUserOperation.class);
-            // session的函数读取xml中namespace和id
-            User user = userOperation.selectUserByID(1);
-            System.out.println(user.getUserAddress());
-            System.out.println(user.getUserName());
+            userOperation.deleteUser(2);
+            sqlSession.commit();
+            System.out.println("删除完毕");
         } finally {
             sqlSession.close();
         }
