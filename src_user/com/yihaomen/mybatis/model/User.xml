@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--方式1：用 SqlSession 实例来直接执行已映射的SQL语句-->
 <!--如果运行test_user/Test.class,用下面这行-->
+<!--namespace可以自己定义，Test.java里需要对应namespace和select的id-->
 <!--<mapper namespace="com.yihaomen.mybatis.models.UserMapper">-->
+
+<!--方式2：使用描述参数和SQL语句返回值的接口（比如 IUserOperation.class），推荐使用这种方式-->
 <!--如果运行test_user/TestInterface.class,用下面这行-->
+<!--此时的namespace,是定义的接口-->
 <mapper namespace="com.yihaomen.mybatis.inter.IUserOperation">
     <select id="selectUserByID" parameterType="int" resultType="User">
         select * from `user` where id = #{id}
