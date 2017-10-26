@@ -24,9 +24,9 @@
 
     <resultMap id="resultListUser" type="User">
         <id column="id" property="id"/>
-        <id column="userName" property="userName"/>
-        <id column="userAge" property="userAge"/>
-        <id column="userAddress" property="userAddress"/>
+        <result column="userName" property="userName"/>
+        <result column="userAge" property="userAge"/>
+        <result column="userAddress" property="userAddress"/>
     </resultMap>
     <select id="selectUsers" parameterType="string" resultMap="resultListUser">
         select * from user where userName like #{userName}
@@ -36,19 +36,24 @@
     </select>
 
     <resultMap id="resultUserArticleList" type="Article">
-        <id column="id" property="id"/>
+        <id column="aid" property="id"/>
         <result column="title" property="title"/>
         <result column="content" property="content"/>
 
-        <association property="user" javaType="User">
-            <id column="id" property="id"/>
-            <result column="userName" property="userName"/>
-            <result column="userAddress" property="userAddress"/>
-        </association>
+        <!--User联合Article进行查询(多对一的方式) 配置方法1： -->
+        <!--<association property="user" javaType="User">-->
+            <!--<id column="id" property="id"/>-->
+            <!--<result column="userName" property="userName"/>-->
+            <!--<result column="userAddress" property="userAddress"/>-->
+        <!--</association>-->
+
+        <!--User联合Article进行查询(多对一的方式) 配置方法2： -->
+        <!--复用前面已经定义好的 resultMap：resultListUser -->
+        <association property="user" javaType="User" resultMap="resultListUser" />
     </resultMap>
     <select id="getUserArticles" parameterType="int" resultMap="resultUserArticleList">
-        select user.id,user.userName,user.userAddress,article.id,article.title,article.content from user,article
-        where user.id=article.id and user.id=#{id}
+        select user.id,user.userName,user.userAddress,article.id aid,article.title,article.content from user,article
+        where user.id=article.userid and user.id=#{id}
     </select>
 
     <update id="updateUser" parameterType="User">
