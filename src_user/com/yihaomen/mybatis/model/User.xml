@@ -21,7 +21,7 @@
         insert into user(userName,userAge,userAddress)
         values(#{userName},#{userAge},#{userAddress})
     </insert>
-    
+
     <resultMap id="resultListUser" type="User">
         <id column="id" property="id"/>
         <id column="userName" property="userName"/>
@@ -32,7 +32,24 @@
         select * from user where userName like #{userName}
     </select>
     <select id="selectAllUsers" resultMap="resultListUser">
-        select * from user
+        select user.id,user.userName,user.userAddress,article.id,article. from user
+        where
+    </select>
+
+    <resultMap id="resultUserArticleList" type="Article">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+
+        <association property="user" javaType="User">
+            <id column="id" property="id"/>
+            <result column="userName" property="userName"/>
+            <result column="userAddress" property="userAddress"/>
+        </association>
+    </resultMap>
+    <select id="getUserArticles" parameterType="int" resultMap="resultUserArticleList">
+        select user.id,user.userName,user.userAddress,article.id,article.title,article.content from user,article
+        where
     </select>
 
     <update id="updateUser" parameterType="User">
