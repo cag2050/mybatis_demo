@@ -23,10 +23,10 @@
     </insert>
 
     <resultMap id="resultListUser" type="User">
-        <id column="id" property="id"/>
-        <result column="userName" property="userName"/>
-        <result column="userAge" property="userAge"/>
-        <result column="userAddress" property="userAddress"/>
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="userAge" column="userAge"/>
+        <result property="userAddress" column="userAddress"/>
     </resultMap>
     <select id="selectUsers" parameterType="string" resultMap="resultListUser">
         select * from user where userName like #{userName}
@@ -36,15 +36,15 @@
     </select>
 
     <resultMap id="resultUserArticleList" type="Article">
-        <id column="aid" property="id"/>
-        <result column="title" property="title"/>
-        <result column="content" property="content"/>
+        <id property="id" column="aid"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
 
         <!--User联合Article进行查询(多对一的方式) 配置方法1： -->
         <!--<association property="user" javaType="User">-->
-            <!--<id column="id" property="id"/>-->
-            <!--<result column="userName" property="userName"/>-->
-            <!--<result column="userAddress" property="userAddress"/>-->
+            <!--<id property="id" column="id"/>-->
+            <!--<result property="userName" column="userName"/>-->
+            <!--<result property="userAddress" column="userAddress"/>-->
         <!--</association>-->
 
         <!--User联合Article进行查询(多对一的方式) 配置方法2： -->
@@ -52,7 +52,7 @@
         <association property="user" javaType="User" resultMap="resultListUser" />
     </resultMap>
     <select id="getUserArticles" parameterType="int" resultMap="resultUserArticleList">
-        select user.id,user.userName,user.userAddress,article.id aid,article.title,article.content from user,article
+        select user.id,user.userName,user.userAddress,article.id as aid,article.title,article.content from user,article
         where user.id=article.userid and user.id=#{id}
     </select>
 
