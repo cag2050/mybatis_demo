@@ -28,7 +28,7 @@ public class TestSelectUsers {
         try {
             // 先mapper映射接口
             IUserOperation userOperation = sqlSession.getMapper(IUserOperation.class);
-            List<User> list = userOperation.selectUsers("");
+            List<User> list = userOperation.selectUsers("cag");
             for (User user : list) {
                 System.out.println("user id = " + user.getId() + ",user name = " + user.getUserName() + ",user address = " + user.getUserAddress());
             }
