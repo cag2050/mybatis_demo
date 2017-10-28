@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.Reader;
-import java.util.Iterator;
 import java.util.List;
 
 public class TestSelectAllUsers {
@@ -17,7 +16,7 @@ public class TestSelectAllUsers {
 
     static {
         try {
-            reader = Resources.getResourceAsReader("Configuration.xml");
+            reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         } catch (Exception e) {
             e.printStackTrace();

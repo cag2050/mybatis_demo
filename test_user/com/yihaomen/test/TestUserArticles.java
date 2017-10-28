@@ -2,7 +2,6 @@ package com.yihaomen.test;
 
 import com.yihaomen.mybatis.inter.IUserOperation;
 import com.yihaomen.mybatis.model.Article;
-import com.yihaomen.mybatis.model.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -17,7 +16,7 @@ public class TestUserArticles {
 
     static {
         try {
-            reader = Resources.getResourceAsReader("Configuration.xml");
+            reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         } catch (Exception e) {
             e.printStackTrace();

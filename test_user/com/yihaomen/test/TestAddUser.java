@@ -16,7 +16,7 @@ public class TestAddUser {
 
     static {
         try {
-            reader = Resources.getResourceAsReader("Configuration.xml");
+            reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         } catch (IOException e) {
             e.printStackTrace();
